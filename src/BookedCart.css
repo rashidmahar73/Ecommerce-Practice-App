@@ -1,0 +1,18 @@
+.cardDesign{
+    width: 10rem;
+    border-style: none;
+    background-color: grey;
+    --bs-card-bg:#fff !important; 
+}
+.btnDesign{
+     --bs-btn-bg:
+}
+.table>:not(caption)>*>* {
+    box-shadow: none;
+    border-bottom-width:0px;
+}
+.cartHeadings{
+    color: "black";
+    display: "inline";
+     /* text-align: end; */
+}
