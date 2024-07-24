@@ -4,3 +4,33 @@
 .ModalText{
     color: blue;
 }
+
+.card {
+    border: none;
+    padding: 20px;
+    margin-bottom: 10px;
+    background-color: rgb(221, 220, 220);
+    height: 100%;
+  }
+  
+  .card-img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-title {
+    font-weight: bold;
+  }
+  
+  .card-text {
+    display: block;
+  }
+  
+  .card-price {
+    font-weight: bold;
+  }
+  
+  .card-buttons {
+    display: flex;
+    justify-content: space-between;
+  }

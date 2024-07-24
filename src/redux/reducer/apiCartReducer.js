@@ -1,4 +1,4 @@
-import { ActionType } from "../actionTypes/actionType"
+import { ActionType } from "../actions/actionType"
 
 const intialState={
     data:[],
@@ -6,7 +6,7 @@ const intialState={
     error:null,
 }
 
-export default function ApiReducer(state=intialState ,action){
+export default function apiReducer(state=intialState ,action){
     
     switch (action.type) {  
         case ActionType.FETCH_USER_DATA_SUCCESS:

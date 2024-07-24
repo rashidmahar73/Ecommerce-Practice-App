@@ -4,9 +4,12 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
 
 function Navv() {
-  const cart = useSelector((state) => state.productQuantity.value);
+  const productItems = useSelector(
+    (state) => state.productQuantity.productItems
+  );
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -25,7 +28,10 @@ function Navv() {
             </Nav>
             <Nav>
               <NavLink to="/cart">
-                <span style={{ color: "white" }}>{cart}</span>
+                <Button>
+                  Cart
+                  <span style={{ color: "white" }}>{" "}{productItems?.length}</span>
+                </Button>
               </NavLink>
             </Nav>
           </Navbar.Collapse>

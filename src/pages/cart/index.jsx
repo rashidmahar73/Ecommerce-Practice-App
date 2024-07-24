@@ -1,42 +1,37 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Container,
-  Row,
-  Col,
-  Table,
-  Card,
-  Button,
-  ListGroup,
-} from "react-bootstrap";
-import {
-  productQuantiIncrement,
-  productQuantiDecrement,
-  productIncrement,
-  removeElement,
-  productDecrement,
-  perProductTotalPrice,
-} from "../../reducer/addProductsReducer";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 import { Navv } from "../../component";
-import "./styles.css";
+import { productIncrement,productDecrement,removeElement } from "../../redux";
 
 function Cart() {
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.productQuantity.ary);
-  const cart = useSelector((state) => state.productQuantity.value);
-  const summaryItems = useSelector(
-    (state) => state.productQuantity.summaryItem
+  const productItems = useSelector(
+    (state) => state.productQuantity.productItems
   );
-  const pricee = useSelector((state) => state.productQuantity.total);
-  return (  
+
+  function calculateTotal(dataArray) {
+    return dataArray.reduce(
+      (acc, item) => {
+        acc.quantity += item.quantity;
+        acc.totalproductPrice += item.totalproductprice;
+        return acc;
+      },
+      { quantity: 0, totalproductPrice: 0 }
+    );
+  }
+
+  const stats = calculateTotal(productItems);
+
+  return (
     <>
       <Navv />
       <Container className="my-5">
         <h2 className="mb-4">Shopping Cart</h2>
         <Row>
           <Col md={8}>
-            {data.length > 0 ? (
-              data.map((item) => (
+            {productItems.length > 0 ? (
+              productItems.map((item) => (
                 <Card key={item.id} className="mb-3">
                   <Card.Body>
                     <Row>
@@ -67,7 +62,7 @@ function Cart() {
                           variant="danger"
                           onClick={() => {
                             dispatch(
-                              removeElement(`${(item.title, item.quantity)}`)
+                              removeElement(`${item.id}`)
                             );
                           }}
                         >
@@ -78,18 +73,10 @@ function Cart() {
                         <Button
                           variant="light"
                           size="sm"
-                          onClick={
-                            summaryItems > 0
-                              ? () => {
-                                  dispatch(
-                                    productQuantiDecrement(
-                                      `${Number(item.price)}`
-                                    )
-                                  );
-                                  dispatch(productDecrement(`${item.title}`));
-                                }
-                              : () => {}
-                          }
+                          onClick={() => {
+                            if (item.quantity === 1) return;
+                            dispatch(productDecrement(`${item.id}`));
+                          }}
                         >
                           -
                         </Button>
@@ -98,11 +85,7 @@ function Cart() {
                           variant="light"
                           size="sm"
                           onClick={() => {
-                            dispatch(productIncrement(`${item.title}`));
-                            dispatch(
-                              productQuantiIncrement(`${Number(item.price)}`)
-                            );
-                            dispatch(perProductTotalPrice(`${item.title}`));
+                            dispatch(productIncrement(`${item.id}`));
                           }}
                         >
                           +
@@ -124,14 +107,14 @@ function Cart() {
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
                     <span>Order Summary</span>
-                    <span>{cart}</span>
+                    <span>{productItems?.length}</span>
                   </div>
                 </Card.Title>
                 <ListGroup variant="flush">
-                  {data.map((item) => (
+                  {productItems.map((item) => (
                     <ListGroup.Item key={item.id}>
                       {item.title} x {item.quantity} = $
-                      {item.price * item.quantity}
+                      {(item.price * item.quantity).toFixed(2)}
                     </ListGroup.Item>
                   ))}
                 </ListGroup>
@@ -139,8 +122,8 @@ function Cart() {
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <span>Total Items {summaryItems} </span>
-                  <span>Total Price {pricee}</span>
+                  <span>Total Items {stats.quantity} </span>
+                  <span>Total Price ${stats.totalproductPrice?.toFixed(2)}</span>
                 </div>
                 <Button variant="success" className="mt-3" block>
                   Proceed to Checkout

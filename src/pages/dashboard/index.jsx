@@ -1,16 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { Card, Row, Col, Container, Button, Form } from "react-bootstrap";
+import {fetchProducts,productList} from "../../redux"
+import { ModalModule, Navv } from "../../component";
+import { ProductDetail } from "../productDetail";
 import "./styles.css";
-import { fetchProducts } from "../../actionCreator/actionCreator";
 
 function Dashboard() {
   const [category, setCategory] = useState("beauty");
+  const [isDetailModal, setIsDetailModal] = useState(false);
+  const [product, setProduct] = useState({});
 
-  const navigate = useNavigate();
-  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,9 +21,9 @@ function Dashboard() {
   const productDetails = useSelector((state) => state.ApiReducer.data);
   const thunkLoading = useSelector((state) => state.ApiReducer.loading);
 
-
-  function handleNewOne(e, item) {
-    navigate("/productDetail", { state: item });
+  function handleDetails(item) {
+    setIsDetailModal(true);
+    setProduct(item);
   }
 
   const uniqueCategorytList = [];
@@ -66,6 +67,7 @@ function Dashboard() {
         />
       ) : (
         <React.Fragment>
+          <Navv />
           <Container>
             <Row>
               <Col lg={3}>
@@ -76,51 +78,63 @@ function Dashboard() {
                       aria-label="Default select example"
                       onChange={(e) => handleCheckboxItem(e.target.value)}
                     >
-                      {uniqueCategorytList?.map((item) => {
-                        return (
-                          <option key={`produt-category${item}`} value={item}>
-                            {item}
-                          </option>
-                        );
-                      })}
+                      {uniqueCategorytList?.map((item) => (
+                        <option key={`produt-category${item}`} value={item}>
+                          {item}
+                        </option>
+                      ))}
                     </Form.Select>
                   </Form.Group>
                 </Form>
               </Col>
             </Row>
             <Row>
-              {filteredList &&
-                filteredList.map((item) => {
-                  const { title, thumbnail, description, price } = item;
-                  return (
-                    <Col lg={3}>
-                      <Card
-                        style={{
-                          width: "10rem",
-                          border: "none",
+              {filteredList?.map((item) => (
+                <Col lg={3} style={{ marginBottom: "10px" }}>
+                  <Card className="card">
+                    <Card.Img
+                      variant="top"
+                      src={item?.thumbnail}
+                      className="card-img"
+                    />
+                    <Card.Body>
+                      <Card.Title className="card-title">
+                        {item?.title}
+                      </Card.Title>
+                      <Card.Text className="card-text">
+                        {item?.description?.slice(0, 30)}...
+                      </Card.Text>
+                    </Card.Body>
+                    <span className="card-price">{`$${item?.price}`}</span>
+                    <div className="card-buttons">
+                      <Button onClick={() => handleDetails(item)}>
+                        Details
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          const copyItem = {
+                            ...item,
+                            quantity: 1,
+                            totalproductprice: item.price,
+                          };
+                          dispatch(productList(copyItem));
                         }}
                       >
-                        <Card.Img
-                          variant="top"
-                          src={thumbnail}
-                          className="img-fluid"
-                        />
-                        <Card.Body>
-                          <Card.Title>{title}</Card.Title>
-                          <Card.Text>{description?.slice(0, 30)}...</Card.Text>
-                        </Card.Body>
-                        <span
-                          style={{ fontWeight: "bold" }}
-                        >{`$${price}`}</span>
-                        <Button onClick={(e) => handleNewOne(e, { item })}>
-                          Details
-                        </Button>
-                      </Card>
-                    </Col>
-                  );
-                })}
+                        Add to Cart
+                      </Button>
+                    </div>
+                  </Card>
+                </Col>
+              ))}
             </Row>
           </Container>
+          <ModalModule
+            isOpen={isDetailModal}
+            setIsOpen={setIsDetailModal}
+            heading="Detail"
+          >
+            <ProductDetail item={product} />
+          </ModalModule>
         </React.Fragment>
       )}
     </>

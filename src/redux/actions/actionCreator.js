@@ -1,5 +1,5 @@
-import { ActionType } from "../actionTypes/actionType.js";
 import axios from "axios";
+import { ActionType } from "./actionType";
 
 export const fetchProducts=()=>{
    
@@ -9,8 +9,8 @@ export const fetchProducts=()=>{
             dispatch({type:ActionType.FETCH_ERROR,payload:err})
         })
         const {products}=data;
-        let changedData=products.map((item)=>{
-            let addingKey={
+        const changedData=products.map((item)=>{
+            const addingKey={
                 ...item,
                 quantity:0,
                 totalproductprice:0
