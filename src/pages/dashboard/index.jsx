@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { Card, Row, Col, Container, Button, Form } from "react-bootstrap";
-import {fetchProducts,productList} from "../../redux"
+import { fetchProducts, productList } from "../../redux";
 import { ModalModule, Navv } from "../../component";
 import { ProductDetail } from "../productDetail";
 import "./styles.css";
@@ -91,39 +91,41 @@ function Dashboard() {
             <Row>
               {filteredList?.map((item) => (
                 <Col lg={3} style={{ marginBottom: "10px" }}>
-                  <Card className="card">
-                    <Card.Img
-                      variant="top"
-                      src={item?.thumbnail}
-                      className="card-img"
-                    />
-                    <Card.Body>
-                      <Card.Title className="card-title">
-                        {item?.title}
-                      </Card.Title>
-                      <Card.Text className="card-text">
-                        {item?.description?.slice(0, 30)}...
-                      </Card.Text>
-                    </Card.Body>
-                    <span className="card-price">{`$${item?.price}`}</span>
-                    <div className="card-buttons">
-                      <Button onClick={() => handleDetails(item)}>
-                        Details
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          const copyItem = {
-                            ...item,
-                            quantity: 1,
-                            totalproductprice: item.price,
-                          };
-                          dispatch(productList(copyItem));
-                        }}
-                      >
-                        Add to Cart
-                      </Button>
-                    </div>
-                  </Card>
+                  <div className="productContainer">
+                    <Card className="card">
+                      <Card.Img
+                        variant="top"
+                        src={item?.thumbnail}
+                        className="card-img"
+                      />
+                      <Card.Body>
+                        <Card.Title className="card-title">
+                          {item?.title}
+                        </Card.Title>
+                        <Card.Text className="card-text">
+                          {item?.description?.slice(0, 30)}...
+                        </Card.Text>
+                      </Card.Body>
+                      <span className="card-price">{`$${item?.price}`}</span>
+                      <div className="card-buttons">
+                        <Button onClick={() => handleDetails(item)}>
+                          Details
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            const copyItem = {
+                              ...item,
+                              quantity: 1,
+                              totalproductprice: item.price,
+                            };
+                            dispatch(productList(copyItem));
+                          }}
+                        >
+                          Add to Cart
+                        </Button>
+                      </div>
+                    </Card>
+                  </div>
                 </Col>
               ))}
             </Row>
