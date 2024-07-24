@@ -10,13 +10,12 @@ export const productQuantity = createSlice({
   },
   reducers: {
     increment: (state, action) => {
-      const isSameItem = (a, b) => a.id === b.id;
-      const existingIndex = state.ary.findIndex((item) =>
-        isSameItem(item, action.payload)
+      // const isSameItem = (a, b) => a.id === b.id;
+      const existingIndex = state.ary.findIndex((item) =>item.id===action.payload.id
+        // isSameItem()
       );
       if (existingIndex === -1) {
         state.ary.push(action.payload);
-        // state.ary=[...state.ary,action.payload];
         state.value += 1;
       }
       // replace existing items
@@ -32,7 +31,7 @@ export const productQuantity = createSlice({
       state.priceTotal += Number(action.payload);
     },
     productQuantiDecrement: (state, action) => {
-      if (state.total > 0) {
+      if (state.total > 0 &&  state.summaryItem >0) {
         state.summaryItem -= 1;
         state.total -= action.payload;
         state.priceTotal -= action.payload;

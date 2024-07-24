@@ -1,6 +1,4 @@
 import { Carousel } from "react-bootstrap";
-import Slider1 from "./Images/Slider Images/Slider1.jpg";
-import Slider2 from "./Images/Slider Images/Slider.png";
 // import { Centered } from "../Centered";
 
 export function Carousell() {
@@ -8,14 +6,14 @@ export function Carousell() {
     <>
       <Carousel fade className="w-100">
         <Carousel.Item interval={1000}>
-          <img className="d-block w-100" src={Slider1} alt="First slide" />
+          {/* <img className="d-block w-100" src={Slider1} alt="First slide" /> */}
           <Carousel.Caption>
             <h3>First slide label</h3>
             <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item interval={500}>
-          <img className="d-block w-100" src={Slider2} alt="Second slide" />
+          {/* <img className="d-block w-100" src={Slider2} alt="Second slide" /> */}
 
           <Carousel.Caption>
             <h3>Second slide label</h3>
@@ -23,7 +21,7 @@ export function Carousell() {
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="d-block w-100" src={Slider1} alt="Third slide" />
+          {/* <img className="d-block w-100" src={Slider1} alt="Third slide" /> */}
 
           <Carousel.Caption>
             <h3>Third slide label</h3>

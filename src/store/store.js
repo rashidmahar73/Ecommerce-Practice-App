@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ApiReducer from "../Reducer/ApiCartReducer";
+import ApiReducer from "../reducer/apiCartReducer";
 import thunk from "redux-thunk";
-import { productQuantity } from "../Reducer/AddProductsReducer";
+import { productQuantity } from "../reducer/addProductsReducer";
 import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import storage from 'redux-persist/lib/storage';
